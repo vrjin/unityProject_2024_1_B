@@ -43,8 +43,18 @@ public class ExPlayer : MonoBehaviour
         {
             point = 0;                             //충돌이 일어났을떄 포인트를 0으로 해준다.
             gameObject.transform.position = new Vector3(0.0f, 3.0f, 0.0f);             //충돌했을떄 위치를 초기화 한다.
-            Debug.Log(collision.gameObject.name);   //해당 오브젝트의 이름을 출력한다. 
+            Debug.Log(collision.gameObject.tag);   //해당 오브젝트의 이름을 출력한다. 
         }
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Item"))
+        {
+            Debug.Log("아이템과 충돌");
+            point += 10;
+            Destroy(other.gameObject);
+        }
     }
 }
