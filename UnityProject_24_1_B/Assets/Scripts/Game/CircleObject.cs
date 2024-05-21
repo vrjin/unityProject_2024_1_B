@@ -6,12 +6,26 @@ public class CircleObject : MonoBehaviour
 {
     public bool isDrag;
     public bool isUsed;
-    Rigidbody2D rigidbody2D;      
-    
+    Rigidbody2D rigidbody2D;
+
+    public int index;
+
+    public float EndTime = 0.0f;
+    public SpriteRenderer spriteRenderer;
+
+    public GameManager gameManager;
+
+    private void Awake()
+    { 
+        isUsed = false;                //시작하기전 소스 단계에서부터 셋팅
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody2D.simulated = false;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        
+    }
     void Start()
     {
-        isUsed = false;                                         // 사용 완료가 되지 않음 (처음 사용)
-        rigidbody2D = GetComponent<Rigidbody2D>();              //강체를 불러온다
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -54,6 +68,40 @@ public class CircleObject : MonoBehaviour
         if (Temp != null)
         {
             Temp.gameObject.GetComponent<GameManager>().GenObject();
+        }
+    }
+
+    public void Used()
+    {
+        isDrag = false;
+        isUsed = true;
+        rigidbody2D.simulated = true;
+    }
+
+    public void OnTriggerStay(Collider2D collision)
+    {
+        if (collision.tag == "EndLine")
+        {
+            EndTime += Time.deltaTime;
+
+            if (EndTime > 1)
+            {
+                spriteRenderer.color = new Color(0.9f, 0.2f, 0.2f);
+            }
+            if (EndTime > 3)
+            {
+                Debug.Log("게임종료");
+            }
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "EndLine")
+        {
+            EndTime = 0.0f;
+            spriteRenderer.color = Color.white;
+
         }
     }
 }
