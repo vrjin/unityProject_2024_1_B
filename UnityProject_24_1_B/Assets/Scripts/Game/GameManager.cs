@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
             TiemCheck -= Time.deltaTime;                          //매 프레임마다 프레임 시간을 뺴준다.
             if (TiemCheck <= 0)                                   //해당 초 시간이 지났을 경우(1초 -> 0초가 되었을 경우)
             {
-                GameObject Temp = Instantiate(CircleObject[RandomNumber]);        //
-                Temp.transform.position = GenTransform.position;
+                //GameObject Temp = Instantiate(CircleObject[RandomNumber]);        //
+                //Temp.transform.position = GenTransform.position;
                 isGen = true;
             }
 
